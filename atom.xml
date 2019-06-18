@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://liubiantao.github.io</id>
-    <title>Gridea</title>
-    <updated>2019-06-18T08:38:03.430Z</updated>
+    <title>liubiantao</title>
+    <updated>2019-06-18T11:52:12.645Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://liubiantao.github.io"/>
     <link rel="self" href="https://liubiantao.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>短暂生命 辉煌燃烧</subtitle>
     <logo>https://liubiantao.github.io/images/avatar.png</logo>
     <icon>https://liubiantao.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, Gridea</rights>
+    <rights>All rights reserved 2019, liubiantao</rights>
     <entry>
         <title type="html"><![CDATA[针对 Zoom web sdk 不支持 Chrome@72 以下版本屏幕分享的讨论]]></title>
         <id>https://liubiantao.github.io/post/zhen-dui-zoom-web-sdk-bu-zhi-chi-chrome72-yi-xia-ban-ben-ping-mu-fen-xiang-de-tao-lun</id>
@@ -34,9 +34,9 @@
   (<a href='https://codepen.io/liubiantao'>@liubiantao</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
 <pre><code class="language-js">document.querySelector('video').srcObject = await navigator.mediaDevices.getDisplayMedia({
-    video: true,
-    audio: true
-  });
+  video: true,
+  audio: true
+});
 </code></pre>
 <p>所以 Zoom 不支持 Chrome@72 以下版本的屏幕分享, 就是因为没有 <code>getDisplayMedia</code>.</p>
 <p>那再来看一下插件的源码:</p>
