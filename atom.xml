@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>/Users/haitao/Documents/Gridea/output</id>
+    <id>https://liubiantao.github.io</id>
     <title>Gridea</title>
-    <updated>2019-06-18T07:41:24.926Z</updated>
+    <updated>2019-06-18T07:55:51.444Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="/Users/haitao/Documents/Gridea/output"/>
-    <link rel="self" href="/Users/haitao/Documents/Gridea/output/atom.xml"/>
+    <link rel="alternate" href="https://liubiantao.github.io"/>
+    <link rel="self" href="https://liubiantao.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
-    <logo>/Users/haitao/Documents/Gridea/output/images/avatar.png</logo>
-    <icon>/Users/haitao/Documents/Gridea/output/favicon.ico</icon>
+    <logo>https://liubiantao.github.io/images/avatar.png</logo>
+    <icon>https://liubiantao.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, Gridea</rights>
     <entry>
         <title type="html"><![CDATA[针对 Zoom web sdk 不支持 Chrome@72 以下版本屏幕分享的讨论]]></title>
-        <id>/Users/haitao/Documents/Gridea/output/post/zhen-dui-zoom-web-sdk-bu-zhi-chi-chrome72-yi-xia-ban-ben-ping-mu-fen-xiang-de-tao-lun/index.html</id>
-        <link href="/Users/haitao/Documents/Gridea/output/post/zhen-dui-zoom-web-sdk-bu-zhi-chi-chrome72-yi-xia-ban-ben-ping-mu-fen-xiang-de-tao-lun/index.html">
+        <id>https://liubiantao.github.io/post/zhen-dui-zoom-web-sdk-bu-zhi-chi-chrome72-yi-xia-ban-ben-ping-mu-fen-xiang-de-tao-lun</id>
+        <link href="https://liubiantao.github.io/post/zhen-dui-zoom-web-sdk-bu-zhi-chi-chrome72-yi-xia-ban-ben-ping-mu-fen-xiang-de-tao-lun">
         </link>
         <updated>2019-06-18T06:15:15.000Z</updated>
         <content type="html"><![CDATA[<p>原帖: <a href="https://devforum.zoom.us/t/support-zoom-web-sdk-screen-share-under-chrome-72/4650/2">https://devforum.zoom.us/t/support-zoom-web-sdk-screen-share-under-chrome-72/4650/2</a></p>
@@ -25,7 +25,7 @@
 https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia#Browser_compatibility
 https://github.com/zoom/sample-app-web#video-computer-audio-and-sharing-supported-browser</p>
 <p>更直接的证据是搜索你们的源码：
-<img src="/Users/haitao/Documents/Gridea/output/post-images/1560838640582.png" alt=""></p>
+<img src="https://liubiantao.github.io/post-images/1560838640582.png" alt=""></p>
 <p>这个 API 的作用是拿到  <code>MediaStream</code>, 直接看例子
 <a href="https://codepen.io/liubiantao/pen/agZGvq">https://codepen.io/liubiantao/pen/agZGvq</a></p>
 <pre><code class="language-js">document.querySelector('video').srcObject = await navigator.mediaDevices.getDisplayMedia({
