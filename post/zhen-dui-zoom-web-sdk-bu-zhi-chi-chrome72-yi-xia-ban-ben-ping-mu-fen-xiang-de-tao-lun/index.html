@@ -1,0 +1,141 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>针对 Zoom web sdk 不支持 Chrome@72 以下版本屏幕分享的讨论 | Gridea</title>
+<link rel="shortcut icon" href="/Users/haitao/Documents/Gridea/output/favicon.ico?v=1560843682970">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="/Users/haitao/Documents/Gridea/output/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="/Users/haitao/Documents/Gridea/output">
+  <img class="avatar" src="/Users/haitao/Documents/Gridea/output/images/avatar.png?v=1560843682970" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/Users/haitao/Documents/Gridea/output//index.html" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/Users/haitao/Documents/Gridea/output/archives/index.html" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/Users/haitao/Documents/Gridea/output/tags/index.html" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/Users/haitao/Documents/Gridea/output/post/about/index.html" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              针对 Zoom web sdk 不支持 Chrome@72 以下版本屏幕分享的讨论
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2019-06-18 ·
+              </time>
+              
+            </div>
+            
+            <div class="post-content">
+              <p>原帖: <a href="https://devforum.zoom.us/t/support-zoom-web-sdk-screen-share-under-chrome-72/4650/2">https://devforum.zoom.us/t/support-zoom-web-sdk-screen-share-under-chrome-72/4650/2</a></p>
+<h2 id="回复内容">回复内容:</h2>
+<p>核心的问题是怎么拿到 <code>MediaStream</code>, 至于拿到 <code>MediaStream</code> 之后用 WebRTC 还是你们自己的协议, 都是可以的.</p>
+<p>不要看插件说明，我来给你讲一下源码。</p>
+<p>Chrome@72 以上，新增了 <code>getDisplayMedia</code> API,
+对比浏览器支持, 可以发现你们的 Zoom web sdk 同样使用了这个 API
+https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getDisplayMedia#Browser_compatibility
+https://github.com/zoom/sample-app-web#video-computer-audio-and-sharing-supported-browser</p>
+<p>更直接的证据是搜索你们的源码：
+<img src="/Users/haitao/Documents/Gridea/output/post-images/1560838640582.png" alt=""></p>
+<p>这个 API 的作用是拿到  <code>MediaStream</code>, 直接看例子
+<a href="https://codepen.io/liubiantao/pen/agZGvq">https://codepen.io/liubiantao/pen/agZGvq</a></p>
+<pre><code class="language-js">document.querySelector('video').srcObject = await navigator.mediaDevices.getDisplayMedia({
+    video: true,
+    audio: true
+  });
+</code></pre>
+<p>所以你们不支持 Chrome@72 以下版本的屏幕分享, 就是因为没有 <code>getDisplayMedia</code>.</p>
+<p>那再来看一下插件的源码:
+<a href="https://gist.github.com/liubiantao/66e06d7203e7ede99b4830e06f911925#file-background-script-js-L20">https://gist.github.com/liubiantao/66e06d7203e7ede99b4830e06f911925#file-background-script-js-L20</a>
+关键就是 <code>chrome.desktopCapture</code> API</p>
+<pre><code class="language-js">chrome.desktopCapture.chooseDesktopMedia(screenOptions, port.sender.tab, onAccessApproved);
+</code></pre>
+<p>根据 <code>onAccessApproved</code> callback 文档:</p>
+<blockquote>
+<p>streamId: An opaque string that can be passed to getUserMedia() API to generate media stream that corresponds to the source selected by the user. If user didn't select any source (i.e. canceled the prompt) then the callback is called with an empty streamId. The created streamId can be used only once and expires after a few seconds when it is not used.</p>
+</blockquote>
+<p><a href="https://developers.chrome.com/extensions/desktopCapture#type-DesktopCaptureSourceType">https://developers.chrome.com/extensions/desktopCapture#type-DesktopCaptureSourceType</a></p>
+<p>也就是说 <code>streamId + getUserMedia</code> 可以实现类似 <code>getDisplayMedia</code> 的作用.</p>
+<p>到这里我想你们的工程师应该知道怎么做了.</p>
+<p>另外, 在 Electron 中, 也可以直接用 <code>desktopCapturer.getSources</code> 拿到 <code>streamId</code>
+<a href="https://electronjs.org/docs/api/desktop-capturer">https://electronjs.org/docs/api/desktop-capturer</a></p>
+<p>所以 Zoom web sdk 是否可以提供一个接口, 允许用户传入 <code>streamId</code> or <code>MediaStream</code> 给你们, 以兼容 Chrome@72 以下浏览器?</p>
+
+            </div>
+          </article>
+        </div>
+
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="/Users/haitao/Documents/Gridea/output/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
