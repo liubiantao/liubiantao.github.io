@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://liubiantao.github.io</id>
     <title>liubiantao</title>
-    <updated>2019-06-18T11:52:12.645Z</updated>
+    <updated>2019-06-20T03:41:50.664Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://liubiantao.github.io"/>
     <link rel="self" href="https://liubiantao.github.io/atom.xml"/>
@@ -54,6 +54,42 @@
 <p>另外, 在 Electron 中, 也可以直接用 <code>desktopCapturer.getSources</code> 拿到 <code>streamId</code></p>
 <p><a href="https://electronjs.org/docs/api/desktop-capturer">https://electronjs.org/docs/api/desktop-capturer</a></p>
 <p>所以 Zoom web sdk 是否可以提供一个接口, 允许用户传入 <code>streamId</code> or <code>MediaStream</code> 给你们, 以兼容 Chrome@72 以下浏览器?</p>
+<hr>
+<p>I found Zoom Web Client works well in Chrome@61.
+<img src="https://liubiantao.github.io/post-images/1561001962185.png" alt=""></p>
+<blockquote>
+<p>Prerequisites: Google Chrome 53.0.2785 or higher
+https://support.zoom.us/hc/en-us/articles/214629443-Zoom-Web-Client</p>
+</blockquote>
+<p>Then I researched Zoom Scheduler extension
+https://chrome.google.com/webstore/detail/zoom-scheduler/kgjfgplpablkjnlkjmjdecgdpfankdl</p>
+<p><img src="https://liubiantao.github.io/post-images/1561000949969.png" alt=""></p>
+<p>This is exactly what I said yesterday.</p>
+<p>Now I know how they work:</p>
+<ol>
+<li>
+<p>zoom: check chrome and getDisplayMedia
+<img src="https://liubiantao.github.io/post-images/1561001365117.png" alt=""></p>
+</li>
+<li>
+<p>zoom: CHECK_CHROME_SHARING_EXTENSION
+<img src="https://liubiantao.github.io/post-images/1561000814039.png" alt=""></p>
+</li>
+<li>
+<p>zoom: send 'WCL.getSourceID' to extension
+<img src="https://liubiantao.github.io/post-images/1561000843829.png" alt=""></p>
+</li>
+<li>
+<p>extension: get sourceid
+<img src="https://liubiantao.github.io/post-images/1561000949969.png" alt=""></p>
+</li>
+<li>
+<p>extension: send 'WCL.sharing' + sourceid to zoom
+<img src="https://liubiantao.github.io/post-images/1561000992998.png" alt=""></p>
+</li>
+</ol>
+<p>Next, I need to write an extension to mock step 2-5.</p>
+<p>BUT, I would be grateful if you could provide an official interface, thx :)</p>
 ]]></content>
     </entry>
 </feed>
